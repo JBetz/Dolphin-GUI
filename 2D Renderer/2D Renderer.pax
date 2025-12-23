@@ -36,7 +36,7 @@ package setPrerequisites: #(
 	'..\Core\Object Arts\Dolphin\Base\Dolphin'
 	'..\Core\Object Arts\Dolphin\MVP\Base\Dolphin Basic Geometry'
 	'..\Core\Object Arts\Dolphin\MVP\Base\Dolphin MVP Base'
-	'..\..\Dolphin-SDL\LinearAlgebra\LinearAlgebra'
+	'..\LinearAlgebra\LinearAlgebra'
 	'..\..\Dolphin-SDL\SDL3\SDL3').
 
 package!
