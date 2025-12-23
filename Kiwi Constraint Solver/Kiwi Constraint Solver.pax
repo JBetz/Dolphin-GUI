@@ -1,0 +1,109 @@
+﻿| package |
+package := Package name: 'Kiwi Constraint Solver'.
+package paxVersion: 1;
+	basicComment: ''.
+
+package classNames
+	add: #Constraint;
+	add: #ConstraintSolver;
+	add: #ConstraintSolverTests;
+	add: #ConstraintTag;
+	add: #EditInfo;
+	add: #Expression;
+	add: #OrderedDictionary;
+	add: #Row;
+	add: #RowCreation;
+	add: #Strength;
+	add: #Variable;
+	add: #VariableSymbol;
+	yourself.
+
+package binaryGlobalNames: (Set new
+	yourself).
+
+package globalAliases: (Set new
+	yourself).
+
+package setPrerequisites: #(
+	'..\Core\Object Arts\Dolphin\Base\Dolphin'
+	'..\Core\Object Arts\Dolphin\MVP\Base\Dolphin Basic Geometry'
+	'..\Core\Contributions\Camp Smalltalk\SUnit\SUnit').
+
+package!
+
+"Class Definitions"!
+
+Object subclass: #Constraint
+	instanceVariableNames: 'timestamp expression operator strength'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+Object subclass: #ConstraintSolver
+	instanceVariableNames: 'currentId constraints rows variables edits infeasibleRows objective artificial'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+Object subclass: #ConstraintTag
+	instanceVariableNames: 'marker other'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+Object subclass: #EditInfo
+	instanceVariableNames: 'tag constraint constant'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+Object subclass: #Expression
+	instanceVariableNames: 'terms constant'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+Object subclass: #Row
+	instanceVariableNames: 'cells constant'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+Object subclass: #RowCreation
+	instanceVariableNames: 'row tag'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+Object subclass: #Strength
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+Object subclass: #Variable
+	instanceVariableNames: 'timestamp name value context'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+Object subclass: #VariableSymbol
+	instanceVariableNames: 'timestamp type'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+Collection variableSubclass: #OrderedDictionary
+	instanceVariableNames: 'dictionary orderedKeys'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+TestCase subclass: #ConstraintSolverTests
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+"End of package definition"!
+

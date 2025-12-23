@@ -1,0 +1,332 @@
+﻿| package |
+package := Package name: 'Auto Layout'.
+package paxVersion: 1;
+	basicComment: ''.
+
+package classNames
+	add: #AlignBottom;
+	add: #AlignLeft;
+	add: #AlignRight;
+	add: #AlignTop;
+	add: #CenterHorizontally;
+	add: #CenterVertically;
+	add: #ConstraintSpec;
+	add: #Contains;
+	add: #EdgeConstraint;
+	add: #FixedBottom;
+	add: #FixedCorner;
+	add: #FixedExtent;
+	add: #FixedHeight;
+	add: #FixedLeft;
+	add: #FixedOrigin;
+	add: #FixedRight;
+	add: #FixedTop;
+	add: #FixedWidth;
+	add: #Frame;
+	add: #HeightConstraint;
+	add: #Inside;
+	add: #MaximumHeight;
+	add: #MaximumWidth;
+	add: #MinimumHeight;
+	add: #MinimumWidth;
+	add: #PositionAbove;
+	add: #PositionAfter;
+	add: #PositionBefore;
+	add: #PositionBelow;
+	add: #RelativeConstraint;
+	add: #WidthConstraint;
+	yourself.
+
+package methodNames
+	add: #Array -> #isArray;
+	add: #Array -> #isExpression;
+	add: #Array -> #isVariable;
+	add: #Float -> #approximately:;
+	add: #Float -> #nearZero;
+	add: #Number -> #isArray;
+	add: #Number -> #isExpression;
+	add: #Number -> #isVariable;
+	add: #Object -> #clApprox:;
+	add: #Object -> #isOrderPreservingDictionary;
+	add: #Object -> #isSymbolicWeight;
+	yourself.
+
+package binaryGlobalNames: (Set new
+	yourself).
+
+package globalAliases: (Set new
+	yourself).
+
+package setPrerequisites: #(
+	'..\Core\Object Arts\Dolphin\Base\Dolphin'
+	'..\Core\Object Arts\Dolphin\MVP\Base\Dolphin Basic Geometry'
+	'..\Kiwi Constraint Solver\Kiwi Constraint Solver').
+
+package!
+
+"Class Definitions"!
+
+Object subclass: #ConstraintSpec
+	instanceVariableNames: 'frame constraints strength'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+Object subclass: #Frame
+	instanceVariableNames: 'solver top left width height hugWidth hugHeight constraintSpecs editVariables'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+ConstraintSpec subclass: #EdgeConstraint
+	instanceVariableNames: 'target'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+ConstraintSpec subclass: #FixedCorner
+	instanceVariableNames: 'point'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+ConstraintSpec subclass: #FixedExtent
+	instanceVariableNames: 'extent'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+ConstraintSpec subclass: #FixedOrigin
+	instanceVariableNames: 'point'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+ConstraintSpec subclass: #HeightConstraint
+	instanceVariableNames: 'height'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+ConstraintSpec subclass: #RelativeConstraint
+	instanceVariableNames: 'target gap'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+ConstraintSpec subclass: #WidthConstraint
+	instanceVariableNames: 'width'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+EdgeConstraint subclass: #FixedBottom
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+EdgeConstraint subclass: #FixedLeft
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+EdgeConstraint subclass: #FixedRight
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+EdgeConstraint subclass: #FixedTop
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+HeightConstraint subclass: #FixedHeight
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+HeightConstraint subclass: #MaximumHeight
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+HeightConstraint subclass: #MinimumHeight
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+RelativeConstraint subclass: #AlignBottom
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+RelativeConstraint subclass: #AlignLeft
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+RelativeConstraint subclass: #AlignRight
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+RelativeConstraint subclass: #AlignTop
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+RelativeConstraint subclass: #CenterHorizontally
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+RelativeConstraint subclass: #CenterVertically
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+RelativeConstraint subclass: #Contains
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+RelativeConstraint subclass: #Inside
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+RelativeConstraint subclass: #PositionAbove
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+RelativeConstraint subclass: #PositionAfter
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+RelativeConstraint subclass: #PositionBefore
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+RelativeConstraint subclass: #PositionBelow
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+WidthConstraint subclass: #FixedWidth
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+WidthConstraint subclass: #MaximumWidth
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+WidthConstraint subclass: #MinimumWidth
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+"Loose Methods"!
+
+!Array methodsFor!
+
+isArray
+	^true!
+
+isExpression
+	^false!
+
+isVariable
+	^false! !
+
+!Array categoriesForMethods!
+isArray!public! !
+isExpression!public! !
+isVariable!public! !
+!
+
+!Float methodsFor!
+
+approximately: aFloat
+	^self > aFloat ifTrue: [self - aFloat < 1e-8] ifFalse: [aFloat - self < 1e-8]!
+
+nearZero
+	| eps |
+	eps := 1.0e-8.
+	^self < 0.0 ifTrue: [self negated < eps] ifFalse: [self < eps]! !
+
+!Float categoriesForMethods!
+approximately:!public! !
+nearZero!public! !
+!
+
+!Number methodsFor!
+
+isArray
+	^false!
+
+isExpression
+	^false!
+
+isVariable
+	^false! !
+
+!Number categoriesForMethods!
+isArray!public! !
+isExpression!public! !
+isVariable!public! !
+!
+
+!Object methodsFor!
+
+clApprox: x
+	"Answer true if I am approximately equal to the argument.  The default is just an equality test."
+
+	^ self = x!
+
+isOrderPreservingDictionary
+	"Defined here because not all collections inherit from Collection,
+	so just defining it in Collection and StandardOrderedDictionary
+	and using #isCollection with #isOrderPreservingDictionary in
+	StandardOrderedDictionary>>#= would trigger a DNU."
+
+	^false!
+
+isSymbolicWeight
+
+	^ false! !
+
+!Object categoriesForMethods!
+clApprox:!constraints!public! !
+isOrderPreservingDictionary!public! !
+isSymbolicWeight!constraints!public! !
+!
+
+"End of package definition"!
+
