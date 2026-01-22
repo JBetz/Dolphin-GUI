@@ -22,6 +22,9 @@ clear: aColor
 		setDrawColor: aColor;
 		clear!
 
+createStaticTexture: aPoint
+	^sdlRenderer createTexture: aPoint access: SDL_TEXTUREACCESS_STATIC!
+
 createStreamingTexture: aPoint
 	^sdlRenderer createTexture: aPoint access: SDL_TEXTUREACCESS_STREAMING!
 
@@ -55,15 +58,16 @@ downloadTexture: aSDLTexture pixelFormat: anInteger
 	sdlRenderer
 		setRenderTarget: newTexture;
 		setDrawColor: Color white;
-		renderTexture: aSDLTexture
-			source: nil
-			destination: nil.
+		renderTexture: aSDLTexture.
 	^sdlRenderer renderReadPixels: nil!
 
 present: aCanvas
+	| drawQueue |
 	self clear: Color white.
-	aCanvas drawQueue reverseFlushWith: [:each | self queueDrawCommand: each].
-	sdlRenderer present!
+	drawQueue := aCanvas drawQueue.
+	drawQueue reverseDo: [:each | self queueDrawCommand: each].
+	sdlRenderer present.
+	drawQueue clear!
 
 queueDrawCommand: aRenderCommand
 	| selector |
@@ -162,6 +166,9 @@ releaseTexture: aSDL_Texture
 resetClip
 	sdlRenderer resetClip!
 
+sdlRenderer
+	^sdlRenderer!
+
 sdlRenderer: aSDL_Renderer
 	sdlRenderer := aSDL_Renderer!
 
@@ -170,6 +177,9 @@ setClip: aRectangle
 
 setDrawColor: aColor
 	sdlRenderer setDrawColor: aColor!
+
+setRenderTarget: aSDLTexture
+	sdlRenderer setRenderTarget: aSDLTexture!
 
 updateTexture: aTexture pixels: anExternalAddress extent: aPoint 
 	aTexture updatePixels: anExternalAddress pitch: aPoint x * 4!
@@ -189,6 +199,7 @@ wrapExternalTexture: anExternalHandle extent: aPoint
 !Renderer2D categoriesForMethods!
 clear!public! !
 clear:!public! !
+createStaticTexture:!public! !
 createStreamingTexture:!public! !
 createTargetTexture:!public! !
 createTextEngine!accessing!private! !
@@ -211,9 +222,11 @@ queueFillPolygon:!executing!private! !
 queueFillRectangle:!executing!private! !
 releaseTexture:!public! !
 resetClip!public! !
+sdlRenderer!accessing!private! !
 sdlRenderer:!accessing!private! !
 setClip:!public! !
 setDrawColor:!executing!public! !
+setRenderTarget:!public! !
 updateTexture:pixels:extent:!public! !
 viewport!public! !
 wrapExternalTexture:extent:!public! !

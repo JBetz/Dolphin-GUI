@@ -421,10 +421,11 @@ resizeVertexBuffer: anInteger
 	vertexBuffer := gpuDevice createVertexBuffer: anInteger!
 
 runCopyPassFor: aCanvas with: aCommandBuffer
-	| vertices indices |
+	| vertices indices drawQueue |
 	vertices := OrderedCollection new.
 	indices := OrderedCollection new.
-	aCanvas drawQueue reverseFlushWith: 
+	drawQueue := aCanvas drawQueue.
+	drawQueue reverseDo: 
 			[:each |
 			self queueDrawCommand: each.
 			each drawData
@@ -438,10 +439,11 @@ runCopyPassFor: aCanvas with: aCommandBuffer
 	self
 		uploadVertices: vertices
 		indices: indices
-		with: aCommandBuffer!
+		with: aCommandBuffer.
+	drawQueue clear!
 
 runRenderPassFor: aCanvas on: aGPUTexture with: aCommandBuffer
-	| renderPass |
+	| renderPass drawQueue |
 	renderPass := self isMultisampling
 				ifTrue: [aCommandBuffer beginRenderPass: multisampleTexture resolveTexture: resolveTexture]
 				ifFalse: [aCommandBuffer beginRenderPass: aGPUTexture].
@@ -450,9 +452,11 @@ runRenderPassFor: aCanvas on: aGPUTexture with: aCommandBuffer
 		bindGraphicsPipeline: renderPipeline;
 		bindVertexBuffers: (Array with: vertexBuffer);
 		bind16BitIndexBuffer: indexBuffer.
-	aCanvas drawQueue reverseFlushWith: [:each | self executeDrawCommand: each in: renderPass].
+	drawQueue := aCanvas drawQueue.
+	drawQueue reverseDo: [:each | self executeDrawCommand: each in: renderPass].
 	renderPass end.
-	self isMultisampling ifTrue: [self blitResolveTextureOn: aGPUTexture with: aCommandBuffer]!
+	self isMultisampling ifTrue: [self blitResolveTextureOn: aGPUTexture with: aCommandBuffer].
+	drawQueue clear!
 
 sampleCount: anInteger
 	"#TODO: Enable dynamic sample count."

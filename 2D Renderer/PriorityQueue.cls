@@ -22,8 +22,20 @@ asOrderedCollection
 	priorityLevels do: [:anInteger | items addAll: (self at: anInteger)].
 	^items!
 
+clear
+	self removeAll!
+
 dequeue
 	^(self at: self highestPriorityLevel) removeLast!
+
+do: aBlock
+	self do: aBlock sortBlock: [:a :b | a > b]!
+
+do: aBlock sortBlock: aSortBlock
+	| priorityLevels |
+	priorityLevels := self keys asOrderedCollection
+				sortUsing: (DefaultSortAlgorithm newSortBlock: aSortBlock).
+	priorityLevels do: [:anInteger | (self at: anInteger) do: [:anItem | aBlock value: anItem]]!
 
 enqueue: anObject
 	self enqueue: anObject priority: 0!
@@ -33,34 +45,22 @@ enqueue: anObject priority: anInteger
 	priorityList := self at: anInteger ifAbsent: [self at: anInteger put: OrderedCollection new].
 	priorityList add: anObject!
 
-flush
-	self removeAll!
-
-flushWith: aBlock
-	self flushWith: aBlock sortBlock:  [ :a :b | a > b ]!
-
-flushWith: aBlock sortBlock: aSortBlock
-	| priorityLevels |
-	priorityLevels := self keys asOrderedCollection sortUsing: (DefaultSortAlgorithm newSortBlock: aSortBlock).
-	priorityLevels do: [:anInteger | (self at: anInteger) do: [:anItem | aBlock value: anItem]].
-	self removeAll!
-
 highestPriorityLevel
 	^(self keys asOrderedCollection sortUsing: (DefaultSortAlgorithm sortBlock: [:a :b | a > b]))
 		ifNotNil: [:priorityLevels | priorityLevels first]!
 
-reverseFlushWith: aBlock
-	self flushWith: aBlock sortBlock:  [ :a :b | a < b ]! !
+reverseDo: aBlock
+	self do: aBlock sortBlock: [:a :b | a < b]! !
 
 !PriorityQueue categoriesForMethods!
 asOrderedCollection!public! !
+clear!public! !
 dequeue!public! !
+do:!public! !
+do:sortBlock:!private! !
 enqueue:!public! !
 enqueue:priority:!public! !
-flush!public! !
-flushWith:!public! !
-flushWith:sortBlock:!public! !
 highestPriorityLevel!public! !
-reverseFlushWith:!public! !
+reverseDo:!public! !
 !
 
