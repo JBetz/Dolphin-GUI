@@ -22,14 +22,23 @@ clear: aColor
 		setDrawColor: aColor;
 		clear!
 
-createStaticTexture: aPoint
-	^sdlRenderer createTexture: aPoint access: SDL_TEXTUREACCESS_STATIC!
+createStaticTexture: aPoint format: anInteger
+	^sdlRenderer
+		createTexture: aPoint
+		format: SDL_TEXTUREACCESS_STATIC
+		access: anInteger!
 
-createStreamingTexture: aPoint
-	^sdlRenderer createTexture: aPoint access: SDL_TEXTUREACCESS_STREAMING!
+createStreamingTexture: aPoint format: anInteger
+	^sdlRenderer
+		createTexture: aPoint
+		format: SDL_TEXTUREACCESS_STREAMING
+		access: anInteger!
 
-createTargetTexture: aPoint
-	^sdlRenderer createTexture: aPoint access: SDL_TEXTUREACCESS_TARGET!
+createTargetTexture: aPoint format: anInteger
+	^sdlRenderer
+		createTexture: aPoint
+		format: anInteger
+		access: SDL_TEXTUREACCESS_TARGET!
 
 createTextEngine
 	textEngine := SDL3TTFLibrary default createRendererTextEngine_renderer: sdlRenderer!
@@ -38,7 +47,10 @@ createTexture: aPoint
 	^self createStreamingTexture: aPoint!
 
 createTexture: aPoint format: anInteger
-	^self createStreamingTexture: aPoint!
+	^sdlRenderer
+		createTexture: aPoint
+		format: SDL_TEXTUREACCESS_STATIC
+		access: anInteger!
 
 createTextureFromSurface: aSDL_Surface
 	^sdlRenderer createTextureFromSurface: aSDL_Surface!
@@ -199,9 +211,9 @@ wrapExternalTexture: anExternalHandle extent: aPoint
 !Renderer2D categoriesForMethods!
 clear!public! !
 clear:!public! !
-createStaticTexture:!public! !
-createStreamingTexture:!public! !
-createTargetTexture:!public! !
+createStaticTexture:format:!public! !
+createStreamingTexture:format:!public! !
+createTargetTexture:format:!public! !
 createTextEngine!accessing!private! !
 createTexture:!public! !
 createTexture:format:!public! !

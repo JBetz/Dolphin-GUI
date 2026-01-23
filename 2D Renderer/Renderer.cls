@@ -20,12 +20,6 @@ clear
 createStaticTexture: aPoint format: anInteger
 	Error subclassResponsibility!
 
-createStreamingTexture: aPoint
-	self subclassResponsibility!
-
-createTargetTexture: aPoint
-	self subclassResponsibility!
-
 createTextEngine
 	self subclassResponsibility!
 
@@ -94,8 +88,6 @@ wrapExternalTexture: anExternalAddress extent: aPoint
 !Renderer categoriesForMethods!
 clear!public! !
 createStaticTexture:format:!public! !
-createStreamingTexture:!public! !
-createTargetTexture:!public! !
 createTextEngine!accessing!private! !
 createTextureFromSurface:!public! !
 defaultFont!public! !
