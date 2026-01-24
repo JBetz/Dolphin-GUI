@@ -76,6 +76,7 @@ downloadTexture: aSDLTexture pixelFormat: anInteger
 present: aCanvas
 	| drawQueue |
 	self clear: Color white.
+	sdlRenderer setRenderTarget: nil.
 	drawQueue := aCanvas drawQueue.
 	drawQueue reverseDo: [:each | self queueDrawCommand: each].
 	sdlRenderer present.
@@ -203,7 +204,7 @@ wrapExternalTexture: anExternalHandle extent: aPoint
 	| properties |
 	properties := SDL_Properties new.
 	properties
-		setPointerProperty: SDL_PROP_TEXTURE_CREATE_D3D11_TEXTURE_POINTER value: anExternalHandle;
+		setPointerProperty: SDL_PROP_TEXTURE_CREATE_D3D12_TEXTURE_POINTER value: anExternalHandle;
 		setNumberProperty: SDL_PROP_TEXTURE_CREATE_WIDTH_NUMBER value: aPoint x truncated;
 		setNumberProperty: SDL_PROP_TEXTURE_CREATE_HEIGHT_NUMBER value: aPoint y truncated.
 	^sdlRenderer createTextureWithProperties: properties! !
