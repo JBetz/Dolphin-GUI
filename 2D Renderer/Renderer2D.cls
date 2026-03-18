@@ -22,6 +22,14 @@ clear: aColor
 		setDrawColor: aColor;
 		clear!
 
+copyTexture: aTexture to: anotherTexture
+	sdlRenderer
+		setRenderTarget: anotherTexture;
+		setDrawColor: Color white;
+		clear;
+		renderTexture: aTexture;
+		setRenderTarget: nil!
+
 createStaticTexture: aPoint format: anInteger
 	^sdlRenderer
 		createTexture: aPoint
@@ -61,7 +69,7 @@ destroy
 	sdlRenderer := nil!
 
 direct3DDevice
-	^sdlRenderer direct3DDevice!
+	self subclassResponsibility!
 
 downloadTexture: aSDLTexture pixelFormat: anInteger
 	| extent newTexture |
@@ -72,6 +80,9 @@ downloadTexture: aSDLTexture pixelFormat: anInteger
 		setDrawColor: Color white;
 		renderTexture: aSDLTexture.
 	^sdlRenderer renderReadPixels: nil!
+
+openSharedTexture: anExternalAddress
+	self subclassResponsibility!
 
 present: aCanvas
 	| drawQueue |
@@ -173,6 +184,9 @@ queueFillRectangle: aFillRectangle
 	aFillRectangle color ifNotNil: [:aColor | sdlRenderer setDrawColor: aColor].
 	aFillRectangle rectangle ifNotNil: [:aRectangle | sdlRenderer fillRectangle: aRectangle]!
 
+releaseSharedTexture: anExternalAddress
+	self subclassResponsibility!
+
 releaseTexture: aSDL_Texture 
 	aSDL_Texture destroy!
 
@@ -194,24 +208,20 @@ setDrawColor: aColor
 setRenderTarget: aSDLTexture
 	sdlRenderer setRenderTarget: aSDLTexture!
 
-updateTexture: aTexture pixels: anExternalAddress extent: aPoint 
+updateTexture: aTexture pixels: anExternalAddress extent: aPoint
+	aTexture extent ~= aPoint ifTrue: [^self].
 	aTexture updatePixels: anExternalAddress pitch: aPoint x * 4!
 
 viewport
 	^Rectangle origin: 0 @ 0 extent: sdlRenderer getWindow getExtent!
 
-wrapExternalTexture: anExternalHandle extent: aPoint
-	| properties |
-	properties := SDL_Properties new.
-	properties
-		setPointerProperty: SDL_PROP_TEXTURE_CREATE_D3D12_TEXTURE_POINTER value: anExternalHandle;
-		setNumberProperty: SDL_PROP_TEXTURE_CREATE_WIDTH_NUMBER value: aPoint x truncated;
-		setNumberProperty: SDL_PROP_TEXTURE_CREATE_HEIGHT_NUMBER value: aPoint y truncated.
-	^sdlRenderer createTextureWithProperties: properties! !
+wrapExternalTexture: anExternalHandle extent: aPoint format: anInteger
+	self subclassResponsibility! !
 
 !Renderer2D categoriesForMethods!
 clear!public! !
 clear:!public! !
+copyTexture:to:!public! !
 createStaticTexture:format:!public! !
 createStreamingTexture:format:!public! !
 createTargetTexture:format:!public! !
@@ -222,6 +232,7 @@ createTextureFromSurface:!public! !
 destroy!public! !
 direct3DDevice!public! !
 downloadTexture:pixelFormat:!images!public! !
+openSharedTexture:!public! !
 present:!public! !
 queueDrawCommand:!private! !
 queueDrawLine:!executing!private! !
@@ -233,6 +244,7 @@ queueDrawText:!private! !
 queueDrawTexture:!executing!private! !
 queueFillPolygon:!executing!private! !
 queueFillRectangle:!executing!private! !
+releaseSharedTexture:!public! !
 releaseTexture:!public! !
 resetClip!public! !
 sdlRenderer!accessing!private! !
@@ -242,14 +254,14 @@ setDrawColor:!executing!public! !
 setRenderTarget:!public! !
 updateTexture:pixels:extent:!public! !
 viewport!public! !
-wrapExternalTexture:extent:!public! !
+wrapExternalTexture:extent:format:!public! !
 !
 
 !Renderer2D class methodsFor!
 
 forWindow: aWindow
 	| sdlRenderer |
-	sdlRenderer := aWindow createRenderer.
+	sdlRenderer := aWindow createRenderer: self driverName.
 	sdlRenderer setDrawBlendMode: SDL_BLENDMODE_BLEND.
 	^self new
 		sdlRenderer: sdlRenderer;

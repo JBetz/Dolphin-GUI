@@ -7,6 +7,10 @@ package classNames
 	add: #Camera;
 	add: #Camera2D;
 	add: #Canvas2D;
+	add: #CInteropLibrary;
+	add: #D3D11Renderer2D;
+	add: #D3D12Renderer2D;
+	add: #D3D12Renderer3D;
 	add: #DrawCommand;
 	add: #DrawData;
 	add: #DrawLine;
@@ -17,6 +21,7 @@ package classNames
 	add: #DrawTexture;
 	add: #FillPolygon;
 	add: #FillRectangle;
+	add: #GpuMemoryInfo;
 	add: #PriorityQueue;
 	add: #Renderer;
 	add: #Renderer2D;
@@ -139,6 +144,18 @@ DrawCommand subclass: #FillRectangle
 	poolDictionaries: ''
 	classInstanceVariableNames: ''!
 
+ExternalLibrary subclass: #CInteropLibrary
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+ExternalStructure subclass: #GpuMemoryInfo
+	instanceVariableNames: ''
+	classVariableNames: '_OffsetOf_budget_video_memory _OffsetOf_current_usage _OffsetOf_total_video_memory'
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
 ExternalStructure subclass: #Uniform
 	instanceVariableNames: ''
 	classVariableNames: '_OffsetOf_view'
@@ -159,6 +176,24 @@ Renderer subclass: #Renderer2D
 
 Renderer subclass: #Renderer3D
 	instanceVariableNames: 'window sampleCount camera gpuDevice renderPipeline fragmentSampler fallbackTexture resolveTexture multisampleTexture vertexBuffer uploadBuffer indexBuffer'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+Renderer2D subclass: #D3D11Renderer2D
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+Renderer2D subclass: #D3D12Renderer2D
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+Renderer3D subclass: #D3D12Renderer3D
+	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	classInstanceVariableNames: ''!

@@ -82,7 +82,7 @@ withOffset: aPoint do: aBlock
 	aBlock value.
 	self subtractOffset: aPoint!
 
-wrapExternalTexture: anExternalAddress extent: aPoint
+wrapExternalTexture: anExternalAddress extent: aPoint format: anInteger
 	self subclassResponsibility! !
 
 !Renderer categoriesForMethods!
@@ -104,7 +104,7 @@ textEngine!accessing!public! !
 updateTexture:pixels:extent:!public! !
 viewport!public! !
 withOffset:do:!public! !
-wrapExternalTexture:extent:!public! !
+wrapExternalTexture:extent:format:!public! !
 !
 
 !Renderer class methodsFor!

@@ -36,6 +36,18 @@ clearFallbackTexture
 	renderPass end.
 	commandBuffer submit!
 
+copyTexture: aGPUTexture to: anotherGPUTexture
+	| commandBuffer copyPass source destination |
+	commandBuffer := gpuDevice acquireCommandBuffer.
+	copyPass := commandBuffer beginCopyPass.
+	source := SDL_GPUTextureLocation new.
+	source texture: aGPUTexture.
+	destination := SDL_GPUTextureLocation new.
+	destination texture: anotherGPUTexture.
+	copyPass copyTexture: source to: destination.
+	copyPass end.
+	commandBuffer submit!
+
 createBuffers
 	vertexBuffer := gpuDevice createVertexBuffer: Vertex byteSize * 1024.
 	indexBuffer := gpuDevice createIndexBuffer: WORD byteSize * 1024.
@@ -138,24 +150,63 @@ createResolveTexture
 						layer_count_or_depth: 1;
 						num_levels: 1)!
 
+createTargetTexture: aPoint format: anInteger
+	^self
+		createTexture: aPoint
+		format: anInteger
+		usage: SDL_GPU_TEXTUREUSAGE_COLOR_TARGET!
+
 createTextEngine
 	textEngine := SDL3TTFLibrary default createGPUTextEngine_device: gpuDevice!
 
 createTexture: aPoint
-	^self createTexture: aPoint format: SDL_GPU_TEXTUREFORMAT_INVALID!
+	^self
+		createTexture: aPoint
+		format: SDL_GPU_TEXTUREFORMAT_INVALID
+		usage: SDL_GPU_TEXTUREUSAGE_SAMPLER | SDL_GPU_TEXTUREUSAGE_COLOR_TARGET
+		properties: nil!
 
 createTexture: aPoint format: anInteger
+	^self
+		createTexture: aPoint
+		format: anInteger
+		usage: SDL_GPU_TEXTUREUSAGE_SAMPLER | SDL_GPU_TEXTUREUSAGE_COLOR_TARGET
+		properties: nil!
+
+createTexture: aPoint format: anInteger properties: aSDLProperties
+	^self
+		createTexture: aPoint
+		format: anInteger
+		usage: SDL_GPU_TEXTUREUSAGE_SAMPLER | SDL_GPU_TEXTUREUSAGE_COLOR_TARGET
+		properties: aSDLProperties!
+
+createTexture: aPoint format: anInteger usage: anotherInteger
+	^self createTexture: aPoint format: anInteger usage: anotherInteger properties: nil!
+
+createTexture: aPoint format: anInteger usage: anotherInteger properties: aSDLProperties
+	"| gpuTextureFormat |
+	gpuTextureFormat := SDL3Library default getGPUTextureFormatFromPixelFormat_format: anInteger."
+
 	self
 		assert: [aPoint x > 0];
-		assert: [aPoint y > 0].
+		assert: [aPoint y > 0].	";
+		assert: [gpuTextureFormat ~= SDL_GPU_TEXTUREFORMAT_INVALID]"
 	^gpuDevice createTexture: (SDL_GPUTextureCreateInfo new
-				type: SDL_GPU_TEXTURETYPE_2D;
-				format: anInteger;
-				usage: SDL_GPU_TEXTUREUSAGE_SAMPLER | SDL_GPU_TEXTUREUSAGE_COLOR_TARGET;
-				width: aPoint x;
-				height: aPoint y;
-				layer_count_or_depth: 1;
-				num_levels: 1)!
+						type: SDL_GPU_TEXTURETYPE_2D;
+						format: anInteger;
+						usage: anotherInteger;
+						width: aPoint x;
+						height: aPoint y;
+						layer_count_or_depth: 1;
+						num_levels: 1;
+						props: (aSDLProperties ifNotNil: [aSDLProperties id] ifNil: [0]))!
+
+createTexture: aPoint properties: aSDLProperties
+	^self
+		createTexture: aPoint
+		format: SDL_GPU_TEXTUREFORMAT_INVALID
+		usage: SDL_GPU_TEXTUREUSAGE_SAMPLER | SDL_GPU_TEXTUREUSAGE_COLOR_TARGET
+		properties: aSDLProperties!
 
 createTextureFromSurface: aSurface
 	| texture dataSize uploadBuffer commandBuffer copyPass |
@@ -532,16 +583,13 @@ viewMatrix
 		yourself!
 
 window: aWindow
-	window := aWindow!
-
-wrapExternalTexture: anExternalAddress extent: aPoint
-	self
-		error: 'Shared textures are not yet supported for this renderer. See: https://github.com/libsdl-org/SDL/issues/12617'! !
+	window := aWindow! !
 
 !Renderer3D categoriesForMethods!
 blitResolveTextureOn:with:!public! !
 camera!public! !
 clearFallbackTexture!private! !
+copyTexture:to:!public! !
 createBuffers!private! !
 createFallbackTexture!private! !
 createFragmentSampler!private! !
@@ -549,9 +597,14 @@ createMultisampleTexture!private! !
 createRenderPipeline:vertexShader:fragmentShader:!private! !
 createRenderPipelines!private! !
 createResolveTexture!private! !
+createTargetTexture:format:!public! !
 createTextEngine!private! !
 createTexture:!public! !
 createTexture:format:!public! !
+createTexture:format:properties:!public! !
+createTexture:format:usage:!public! !
+createTexture:format:usage:properties:!public! !
+createTexture:properties:!public! !
 createTextureFromSurface:!public! !
 createUtilityTextures!private! !
 destroy!public! !
@@ -583,10 +636,12 @@ updateTexture:pixels:extent:!public! !
 uploadVertices:indices:with:!private! !
 viewMatrix!private! !
 window:!public! !
-wrapExternalTexture:extent:!public! !
 !
 
 !Renderer3D class methodsFor!
+
+driverName
+	^nil!
 
 forWindow: aWindow
 	^self forWindow: aWindow sampleCount: 1!
@@ -596,7 +651,7 @@ forWindow: aWindow sampleCount: anInteger
 	(#(1 2 4 8) includes: anInteger)
 		ifFalse: 
 			[self error: ('Invalid sample count: <1d>. Must be 1, 2, 4, or 8.' expandMacrosWith: anInteger)].
-	gpuDevice := SDL_GPUDevice formatFlags: SDL_GPU_SHADERFORMAT_DXIL.
+	gpuDevice := SDL_GPUDevice formatFlags: SDL_GPU_SHADERFORMAT_DXIL name: self driverName.
 	gpuDevice claimWindow: aWindow.
 	renderer := self new.
 	renderer
@@ -612,6 +667,7 @@ forWindow: aWindow sampleCount: anInteger
 	^renderer! !
 
 !Renderer3D class categoriesForMethods!
+driverName!public! !
 forWindow:!public! !
 forWindow:sampleCount:!public! !
 !
