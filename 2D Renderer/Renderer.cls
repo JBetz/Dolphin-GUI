@@ -119,6 +119,7 @@ initialize
 		at: DrawRectangle put: #queueDrawRectangle:;
 		at: FillPolygon put: #queueFillPolygon:;
 		at: FillRectangle put: #queueFillRectangle:;
+		at: DrawSurface put: #queueDrawSurface:;
 		at: DrawTexture put: #queueDrawTexture:;
 		at: DrawString put: #queueDrawString:;
 		at: DrawText put: #queueDrawText:!

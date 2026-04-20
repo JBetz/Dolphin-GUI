@@ -140,6 +140,26 @@ drawString: aString rectangle: aRectangle zIndex: anInteger
 				color: Color black;
 				zIndex: anInteger)!
 
+drawSurface: aSurface rectangle: aRectangle rotation: anInteger zIndex: anotherInteger
+	self addDrawCommand: (DrawSurface new
+				surface: aSurface;
+				rectangle: aRectangle;
+				rotation: anInteger;
+				zIndex: anotherInteger)!
+
+drawSurface: aSurface rectangle: aRectangle stretch: aBoolean zIndex: anotherInteger
+	self addDrawCommand: (DrawSurface new
+				surface: aSurface;
+				rectangle: aRectangle;
+				stretch: aBoolean;
+				zIndex: anotherInteger)!
+
+drawSurface: aSurface rectangle: aRectangle zIndex: anotherInteger
+	self addDrawCommand: (DrawSurface new
+				surface: aSurface;
+				rectangle: aRectangle;
+				zIndex: anotherInteger)!
+
 drawText: aTTFText rectangle: aRectangle color: aColor
 	self addDrawCommand: (DrawText new
 				string: aTTFText;
@@ -285,6 +305,9 @@ drawString:rectangle:color:fontSize:zIndex:!public!text! !
 drawString:rectangle:color:zIndex:!public!text! !
 drawString:rectangle:fontSize:zIndex:!public!text! !
 drawString:rectangle:zIndex:!public!text! !
+drawSurface:rectangle:rotation:zIndex:!public! !
+drawSurface:rectangle:stretch:zIndex:!public! !
+drawSurface:rectangle:zIndex:!public! !
 drawText:rectangle:color:!public!text! !
 drawText:rectangle:color:wrapWidth:zIndex:!public!text! !
 drawText:rectangle:color:zIndex:!public!text! !

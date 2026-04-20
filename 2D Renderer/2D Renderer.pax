@@ -13,10 +13,12 @@ package classNames
 	add: #D3D12Renderer3D;
 	add: #DrawCommand;
 	add: #DrawData;
+	add: #DrawImage;
 	add: #DrawLine;
 	add: #DrawPoint;
 	add: #DrawRectangle;
 	add: #DrawString;
+	add: #DrawSurface;
 	add: #DrawText;
 	add: #DrawTexture;
 	add: #FillPolygon;
@@ -96,6 +98,12 @@ Dictionary variableSubclass: #PriorityQueue
 	poolDictionaries: ''
 	classInstanceVariableNames: ''!
 
+DrawCommand subclass: #DrawImage
+	instanceVariableNames: 'rectangle stretch'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
 DrawCommand subclass: #DrawLine
 	instanceVariableNames: 'start end color thickness'
 	classVariableNames: ''
@@ -126,12 +134,6 @@ DrawCommand subclass: #DrawText
 	poolDictionaries: ''
 	classInstanceVariableNames: ''!
 
-DrawCommand subclass: #DrawTexture
-	instanceVariableNames: 'rectangle stretch texture'
-	classVariableNames: ''
-	poolDictionaries: ''
-	classInstanceVariableNames: ''!
-
 DrawCommand subclass: #FillPolygon
 	instanceVariableNames: 'vertices indices'
 	classVariableNames: ''
@@ -140,6 +142,18 @@ DrawCommand subclass: #FillPolygon
 
 DrawCommand subclass: #FillRectangle
 	instanceVariableNames: 'rectangle color'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+DrawImage subclass: #DrawSurface
+	instanceVariableNames: 'surface'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+DrawImage subclass: #DrawTexture
+	instanceVariableNames: 'texture'
 	classVariableNames: ''
 	poolDictionaries: ''
 	classInstanceVariableNames: ''!
