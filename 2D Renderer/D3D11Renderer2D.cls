@@ -18,11 +18,10 @@ direct3DDevice
 	^sdlRenderer direct3D11Device!
 
 openSharedTexture: anExternalAddress
-	^CInteropLibrary default openSharedD3D11Texture2D_device: self direct3DDevice
-		handle: anExternalAddress!
+	^cInteropLibrary openSharedD3D11Texture2D_device: self direct3DDevice handle: anExternalAddress!
 
 releaseSharedTexture: anExternalAddress
-	CInteropLibrary default releaseD3D11Texture2D_texture: anExternalAddress!
+	cInteropLibrary releaseD3D11Texture2D_texture: anExternalAddress!
 
 wrapExternalTexture: anExternalHandle extent: aPoint format: anInteger
 	| properties |

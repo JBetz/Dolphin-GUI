@@ -183,7 +183,7 @@ ExternalStructure subclass: #Vertex
 	classInstanceVariableNames: ''!
 
 Renderer subclass: #Renderer2D
-	instanceVariableNames: 'sdlRenderer'
+	instanceVariableNames: 'sdlRenderer cInteropLibrary'
 	classVariableNames: ''
 	poolDictionaries: ''
 	classInstanceVariableNames: ''!

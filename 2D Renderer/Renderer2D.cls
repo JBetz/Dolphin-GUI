@@ -1,7 +1,7 @@
 ﻿"Filed out from Dolphin Smalltalk"!
 
 Renderer subclass: #Renderer2D
-	instanceVariableNames: 'sdlRenderer'
+	instanceVariableNames: 'sdlRenderer cInteropLibrary'
 	classVariableNames: ''
 	poolDictionaries: ''
 	classInstanceVariableNames: ''!
@@ -80,6 +80,10 @@ downloadTexture: aSDLTexture pixelFormat: anInteger
 		setDrawColor: Color white;
 		renderTexture: aSDLTexture.
 	^sdlRenderer renderReadPixels: nil!
+
+initialize
+	super initialize.
+	cInteropLibrary := CInteropLibrary default!
 
 openSharedTexture: anExternalAddress
 	self subclassResponsibility!
@@ -232,6 +236,7 @@ createTextureFromSurface:!public! !
 destroy!public! !
 direct3DDevice!public! !
 downloadTexture:pixelFormat:!images!public! !
+initialize!public! !
 openSharedTexture:!public! !
 present:!public! !
 queueDrawCommand:!private! !
